@@ -81,6 +81,9 @@ class XiaomiGatewayDiscovery:
                 if len(data) is None or ip_add in self.gateways:
                     continue
 
+                if ip_add in self.gateways.keys() or ip_add in self.disabled_gateways:
+                    continue
+
                 resp = json.loads(data.decode())
                 if resp["cmd"] != 'iam':
                     _LOGGER.error("Response does not match return cmd")
@@ -254,7 +257,7 @@ class XiaomiGateway:
                        'ctrl_ln2', 'ctrl_ln2.aq1',
                        '86plug', 'ctrl_86plug', 'ctrl_86plug.aq1'],
             'light': ['gateway', 'gateway.v3'],
-            'cover': ['curtain'],
+            'cover': ['curtain', 'curtain.aq2', 'curtain.hagl04'],
             'lock': ['lock.aq1', 'lock.acn02']}
 
         for sid in sids:
